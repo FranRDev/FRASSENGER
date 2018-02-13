@@ -11,17 +11,18 @@ import org.apache.commons.validator.routines.InetAddressValidator;
 import com.frassenger.vista.PanelCliente;
 
 /**
- * Cliente
+ * Cliente.
  * 
  * @author Francisco Rodríguez García
  */
 public class Cliente {
-	private static final int NOMBRE_USUARIO_MAXIMO = 15;
+	
 	//=====================================================================================================
 	// CONSTANTES
 	//=====================================================================================================
 	private static final int PUESRTO_REGISTRADO_MAXIMO = 49151;
 	private static final int PUERTO_REGISTRADO_MINIMO = 1024;
+	private static final int NOMBRE_USUARIO_MAXIMO = 15;
 
 	//=====================================================================================================
 	// MÉTODO PRINCIPAL
@@ -43,7 +44,7 @@ public class Cliente {
 		// DESARROLLO
 		//=================================================================================================
 		try {
-			ventana = new JFrame();
+			ventana = new JFrame("FRASSENGER");
 			panel = new PanelCliente();
 			ventana.setContentPane(panel);
 
@@ -51,6 +52,11 @@ public class Cliente {
 			host = solicitarHost(ventana);
 			puerto = solicitarPuerto(ventana);
 			nombreUsuario = solicitarNombreUsuario(ventana);
+			
+			ventana.pack();
+			ventana.setVisible(true);
+			ventana.setResizable(false);
+			ventana.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 			// Se inicia el cliente.
 			cliente = new Socket(host, puerto);
