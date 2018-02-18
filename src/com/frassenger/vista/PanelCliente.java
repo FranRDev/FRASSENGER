@@ -11,7 +11,7 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 /**
- * Panel Cliente.
+ * Panel PrincipalCliente.
  * 
  * @author Francisco Rodríguez García
  */
@@ -31,7 +31,7 @@ public class PanelCliente extends JPanel {
 	// CONSTRUCTOR
 	//=====================================================================================================
 	/**
-	 * Constructor del Panel Cliente.
+	 * Constructor del Panel PrincipalCliente.
 	 */
 	public PanelCliente() {
 		iniciarComponentes();
@@ -71,7 +71,7 @@ public class PanelCliente extends JPanel {
 	//=====================================================================================================
 	// GETTERS Y SETTERS
 	//=====================================================================================================
-
+	
 	//=====================================================================================================
 	// MÉTODOS
 	//=====================================================================================================
@@ -91,6 +91,10 @@ public class PanelCliente extends JPanel {
 		botonSalir = new JButton("DESCONECTAR");
 	}
 
+	/**
+	 * Asigna un controlador a los elementos necesarios.
+	 * @param al Controlador de ActionListener.
+	 */
 	public void controlador(ActionListener al) {
 		// Botón enviar.
 		botonEnviar.addActionListener(al);
@@ -109,7 +113,42 @@ public class PanelCliente extends JPanel {
 		botonVerUsuarios.setActionCommand("usuarios");
 	}
 	
+	/**
+	 * Añade un mensaje al chat.
+	 * @param mensaje Mensaje que añade.
+	 */
+	public void anhadirMensaje(String mensaje) {
+		areaTexto.append(mensaje.trim() + "\n");
+	}
+	
+	/**
+	 * Obtiene el mensaje escrito por el usuario.
+	 * @return Devuelve el mensaje.
+	 */
+	public String obtenerMensajeEscrito() {
+		return cuadroTexto.getText().toString();
+	}
+	
+	/**
+	 * Limpia el cuadro de texto donde escribe el usuario.
+	 */
+	public void limpiarCuadroDeTexto() {
+		cuadroTexto.setText("");
+	}
+	
+	/**
+	 * Limpia el chat.
+	 */
 	public void limpiarChat() {
 		this.areaTexto.setText("");
+	}
+	
+	public void deshabilitarVista() {
+		areaTexto.setEnabled(false);
+		cuadroTexto.setEnabled(false);
+		botonEnviar.setEnabled(false);
+		botonLimpiar.setEnabled(false);
+		botonSalir.setEnabled(false);
+		botonVerUsuarios.setEnabled(false);
 	}
 }

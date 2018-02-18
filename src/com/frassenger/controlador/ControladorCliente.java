@@ -3,10 +3,12 @@ package com.frassenger.controlador;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import com.frassenger.modelo.Cliente;
+import com.frassenger.modelo.PrincipalServidor;
 import com.frassenger.vista.PanelCliente;
 
 /**
- * Controlador de Cliente.
+ * Controlador de PrincipalCliente.
  * 
  * @author Francisco Rodríguez García
  */
@@ -16,16 +18,28 @@ public class ControladorCliente implements ActionListener {
 	// ATRIBUTOS
 	//=====================================================================================================
 	private PanelCliente panel;
+	private Cliente cliente;
 	
 	//=====================================================================================================
 	// CONSTRUCTOR
 	//=====================================================================================================
 	/**
-	 * Constructor del Controlador de Cliente.
+	 * Constructor del Controlador PrincipalCliente.
 	 * @param panel Panel que controla.
 	 */
 	public ControladorCliente(PanelCliente panel) {
 		this.panel = panel;
+	}
+	
+	//=====================================================================================================
+	// SETTERS
+	//=====================================================================================================
+	/**
+	 * Set de la clase Cliente.
+	 * @param cliente Objeto Cliente.
+	 */
+	public void setCliente(Cliente cliente) {
+		this.cliente = cliente;
 	}
 
 	//=====================================================================================================
@@ -37,18 +51,23 @@ public class ControladorCliente implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent ae) {
 		switch (ae.getActionCommand()) {
+		
 		case "enviar":
 			enviar();
 			break;
+			
 		case "limpiar":
 			limpiar();
 			break;
+			
 		case "salir":
 			salir();
 			break;
+			
 		case "usuarios":
 			verUsuarios();
 			break;
+			
 		default:
 			break;
 		}
@@ -61,7 +80,20 @@ public class ControladorCliente implements ActionListener {
 	 * Envía un mensaje.
 	 */
 	private void enviar() {
-		// TODO: Método de enviar mensaje.
+		String mensaje;
+		
+		// Se obtiene el mensaje a enviar.
+		mensaje = panel.obtenerMensajeEscrito().trim();
+		
+		// Si no está vacío.
+		if (mensaje.length() > 0) {
+			
+			// Se envía.
+			cliente.enviarMensajeTCP(mensaje);
+			
+			// Se limpia el cuadro de texto del cliente.
+			panel.limpiarCuadroDeTexto();
+		}
 	}
 
 	/**
@@ -74,14 +106,33 @@ public class ControladorCliente implements ActionListener {
 	/**
 	 * Sale de la aplicación.
 	 */
-	private void salir() {
-		// TODO: Método para salir.
+	public void salir() {
+		// Se envía un código de salida al servidor.
+		cliente.enviarMensajeTCP(PrincipalServidor.SERVIDOR_CODIGO_SALIDA);
+		
+		// Se cierra la conexión del cliente.
+		cliente.cerrarConexion();
+		
+		// Se pone un mensaje en el cliente.
+		panel.anhadirMensaje(">>> TE HAS DESCONECTADO DEL SERVIDOR...");
+		
+		// Se deshabilitan los componentes de la vista.
+		panel.deshabilitarVista();
 	}
 
 	/**
 	 * Muestra los usuarios conectados.
 	 */
 	private void verUsuarios() {
-		// TODO: Método para ver los usuarios.
+		// Se envía un código de listar usuarios al servidor.
+		cliente.enviarMensajeTCP(PrincipalServidor.SERVIDOR_CODIGO_LISTAR);
+	}
+	
+	/**
+	 * Pone un mensaje en el chat del cliente.
+	 * @param mensaje Mensaje que pone.
+	 */
+	public void ponerMensajeCliente(String mensaje) {
+		panel.anhadirMensaje(mensaje);
 	}
 }
