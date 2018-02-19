@@ -29,11 +29,11 @@ public class HiloServidor extends Thread {
 	//=====================================================================================================
 	public HiloServidor(Socket cliente, ControladorServidor controlador) throws IOException {
 		this.cliente = cliente;
-		//this.cliente.setSoTimeout(5000);
+		this.cliente.setSoTimeout(5000);
 		this.controlador = controlador;
 		this.flujoEntrada = new BufferedReader(new InputStreamReader(cliente.getInputStream()));
 		this.flujoSalida = new PrintWriter(cliente.getOutputStream(), true);
-		//this.nombreUsuario = "";
+		this.nombreUsuario = "";
 	}
 	
 	//=====================================================================================================
@@ -66,7 +66,7 @@ public class HiloServidor extends Thread {
 			cliente.close();
 			
 		} catch (IOException e) {
-			// TODO: Tratar excepción.
+			System.out.println(e.getMessage());
 		}
 		
 		controlador.cambiarClientesConectados(PrincipalServidor.getClientes().obtenerNumeroClientes());
@@ -117,7 +117,7 @@ public class HiloServidor extends Thread {
 		do {
 			try {
 				// Se lee un mensaje.
-				mensaje = flujoEntrada.readLine();
+				mensaje = flujoEntrada.readLine().trim();
 			
 			} catch (IOException e) {
 				mensaje = null;

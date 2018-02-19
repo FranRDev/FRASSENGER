@@ -43,35 +43,41 @@ public class Cliente {
 		String mensaje;
 		
 		// Se obtiene el mensaje.
-		mensaje = recibirMensajeTCP().trim();
-		
-		switch (mensaje) {
-		
-		// Si el mensaje es un código actualizar...
-		case PrincipalServidor.SERVIDOR_CODIGO_ACTUALIZAR:
-			// Se muestra el siguiente mensaje que se recibe con la actualización.
-			controlador.ponerMensajeCliente("SERVIDOR --> Usuarios conectados: " + recibirMensajeTCP().trim());
-			break;
+		try {
+			mensaje = recibirMensajeTCP().trim();
 			
-		// Si el mensaje es un código de salida...
-		case PrincipalServidor.SERVIDOR_CODIGO_SALIDA:
-			controlador.salir();
-			controlador.ponerMensajeCliente(">>> SERVIDOR DESCONECTADO...");
-			break;
-		
-		// Si el mensaje no es ningún código...
-		default:
-			// Se muestra el mensaje en el chat.
-			controlador.ponerMensajeCliente(mensaje);
-			break;
+			switch (mensaje) {
+			
+			// Si el mensaje es un código actualizar...
+			case PrincipalServidor.SERVIDOR_CODIGO_ACTUALIZAR:
+				// Se muestra el siguiente mensaje que se recibe con la actualización.
+				controlador.ponerMensajeCliente("SERVIDOR --> Usuarios conectados: " + recibirMensajeTCP().trim());
+				break;
+				
+			// Si el mensaje es un código de salida...
+			case PrincipalServidor.SERVIDOR_CODIGO_SALIDA:
+				controlador.salir();
+				controlador.ponerMensajeCliente(">>> SERVIDOR DESCONECTADO...");
+				break;
+			
+			// Si el mensaje no es ningún código...
+			default:
+				// Se muestra el mensaje en el chat.
+				controlador.ponerMensajeCliente(mensaje);
+				break;
+			}
+			
+		} catch (IOException e) {
+			System.out.println("Error: " + e.getMessage());
 		}
 	}
 	
 	/**
 	 * Recibe un mensaje TCP.
 	 * @return Devuelve el mensaje recibido.
+	 * @throws IOException 
 	 */
-	public String recibirMensajeTCP() {
+	public String recibirMensajeTCP() throws IOException {
 		String mensaje;
 		
 		// Se pone a null.
@@ -79,13 +85,8 @@ public class Cliente {
 		
 		// Bucle hasta que llega un mensaje.
 		do {
-			try {
-				// Se lee un mensaje.
-				mensaje = flujoEntrada.readLine();
-				
-			} catch (IOException e) {
-				mensaje = null;
-			}
+			// Se lee un mensaje.
+			mensaje = flujoEntrada.readLine().trim();
 			
 		// Mientras el mensaje sea nulo, se repite el proceso.
 		} while (mensaje == null);
@@ -112,7 +113,7 @@ public class Cliente {
 			cliente.close();
 			
 		} catch (IOException e) {
-			// TODO: Tratar excepción.
+			System.out.println(e.getMessage());
 		}
 	}
 }

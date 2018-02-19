@@ -139,19 +139,19 @@ public class PrincipalServidor {
 			}
 			
 		} catch (IOException e) {
-			// TODO: Tratar excepción.
+			System.out.println("Error: " + e.getMessage());
 		}
 	}
 	
-//	public static void cerrarServidor() {
-//		try {
-//			// Se cierra el servidor.
-//			servidor.close();
-//			
-//		} catch (IOException e) {
-//			JOptionPane.showMessageDialog(ventana, "Error al cerrar el servidor.", "FRASSENGER - ERROR", JOptionPane.ERROR_MESSAGE);
-//		}
-//	}
+	public static void cerrarServidor() {
+		try {
+			// Se cierra el servidor.
+			servidor.close();
+			
+		} catch (IOException e) {
+			JOptionPane.showMessageDialog(ventana, "Error al cerrar el servidor.", "FRASSENGER - ERROR", JOptionPane.ERROR_MESSAGE);
+		}
+	}
 
 	/**
 	 * Envía un mensaje tanto al propio servidor, como a todos los clientes.

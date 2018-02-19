@@ -59,7 +59,7 @@ public class ControladorServidor implements ActionListener {
 				} while (!servidor.isClosed());
 				
 			} catch (IOException e) {
-				// TODO: Tratar excepción.
+				System.out.println(e.getMessage());
 			}
 		}
 	}

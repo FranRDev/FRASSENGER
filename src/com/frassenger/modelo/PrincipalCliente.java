@@ -59,7 +59,7 @@ public class PrincipalCliente {
 			}
 			
 		} catch (Exception e) {
-			// TODO: Tratar excepción.
+			System.out.println(e.getMessage());
 		}
 	}
 
