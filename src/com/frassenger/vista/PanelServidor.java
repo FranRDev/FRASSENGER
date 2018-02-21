@@ -13,6 +13,11 @@ import javax.swing.JTextArea;
 
 import com.frassenger.modelo.PrincipalServidor;
 
+/**
+ * Panel del Servidor
+ * 
+ * @author Francisco Rodríguez García
+ */
 public class PanelServidor extends JPanel {
 	private static final long serialVersionUID = 1L;
 	
@@ -101,6 +106,9 @@ public class PanelServidor extends JPanel {
 		botonSalir.setEnabled(false);
 	}
 	
+	/**
+	 * Deshabilita el área de texto.
+	 */
 	public void deshabilitarAreaDeTexto() {
 		areaTexto.setEnabled(false);
 	}
@@ -113,6 +121,10 @@ public class PanelServidor extends JPanel {
 		etiquetaClientesConectados.setText(texto);
 	}
 	
+	/**
+	 * Cambiar la etiqueta del puerto.
+	 * @param mensaje Mensaje.
+	 */
 	public void cambiarEtiquetaPuerto(String mensaje) {
 		etiquetaPuerto.setText(mensaje);
 	}

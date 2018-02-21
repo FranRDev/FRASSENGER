@@ -69,10 +69,6 @@ public class PanelCliente extends JPanel {
 	}
 	
 	//=====================================================================================================
-	// GETTERS Y SETTERS
-	//=====================================================================================================
-	
-	//=====================================================================================================
 	// MÉTODOS
 	//=====================================================================================================
 	/**
@@ -143,6 +139,9 @@ public class PanelCliente extends JPanel {
 		this.areaTexto.setText("");
 	}
 	
+	/**
+	 * Deshabilita todos los elementos de la vista.
+	 */
 	public void deshabilitarVista() {
 		areaTexto.setEnabled(false);
 		cuadroTexto.setEnabled(false);

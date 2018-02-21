@@ -27,6 +27,12 @@ public class HiloServidor extends Thread {
 	//=====================================================================================================
 	// CONSTRUCTOR
 	//=====================================================================================================
+	/**
+	 * Constructor del HiloServidor.
+	 * @param cliente Cliente.
+	 * @param controlador Controlador.
+	 * @throws IOException Devuelve excepciones.
+	 */
 	public HiloServidor(Socket cliente, ControladorServidor controlador) throws IOException {
 		this.cliente = cliente;
 		this.cliente.setSoTimeout(5000);
@@ -39,6 +45,10 @@ public class HiloServidor extends Thread {
 	//=====================================================================================================
 	// GETTERS
 	//=====================================================================================================
+	/**
+	 * Get del nombre del usuario.
+	 * @return Devuelve el nombre de usuario.
+	 */
 	public String getNombreUsuario() {
 		return nombreUsuario;
 	}
@@ -46,6 +56,9 @@ public class HiloServidor extends Thread {
 	//=====================================================================================================
 	// MÉTODO RUN - CORRE EL HILO
 	//=====================================================================================================
+	/**
+	 * Run del hilo.
+	 */
 	@Override
 	public void run() {
 		String mensaje;
@@ -75,6 +88,9 @@ public class HiloServidor extends Thread {
 	//=====================================================================================================
 	// MÉTODOS
 	//=====================================================================================================
+	/**
+	 * Inicializa el cliente.
+	 */
 	private void inicializarCliente() {
 		// Se recibe el primer mensaje TCP del cliente, que es el nombre de usuario, y se comprueba que no esté repetido.
 		nombreUsuario = comprobarNombre(recibirMensajeTCP());
@@ -86,9 +102,14 @@ public class HiloServidor extends Thread {
 		PrincipalServidor.getClientes().actualizarClientesConectados();
 		
 		// Se envía un mensaje a todos indicando la unión del nuevo cliente.
-		PrincipalServidor.enviarMensajeATodos("SERVIDOR -> " + nombreUsuario + " se ha unido.");
+		PrincipalServidor.enviarMensajeATodos("SERVIDOR --> " + nombreUsuario + " se ha unido.");
 	}
 
+	/**
+	 * Comprueba que el nombre es correcto.
+	 * @param nombre Nombre a comprobar.
+	 * @return Devuelve el nombre si es correcto o corregido.
+	 */
 	private String comprobarNombre(String nombre) {
 		String nombreFinal;
 		int contador;
@@ -96,6 +117,7 @@ public class HiloServidor extends Thread {
 		nombreFinal = nombre;
 		contador = 1;
 		
+		// Si hay algún nombre igual, le añade un número.
 		while (PrincipalServidor.getClientes().existeCliente(nombreFinal)) {
 			nombreFinal = nombre + contador;
 		}
@@ -103,10 +125,18 @@ public class HiloServidor extends Thread {
 		return nombreFinal;
 	}
 	
+	/**
+	 * Envía un mensaje TCP.
+	 * @param mensaje Mensaje.
+	 */
 	public void enviarMensajeTCP(String mensaje) {
 		flujoSalida.println(mensaje);
 	}
 
+	/**
+	 * Recibe un mensaje TCP.
+	 * @return Mensaje.
+	 */
 	private String recibirMensajeTCP() {
 		String mensaje;
 		
@@ -140,20 +170,20 @@ public class HiloServidor extends Thread {
 		// Si el mensaje es un código de listar...
 		case PrincipalServidor.SERVIDOR_CODIGO_LISTAR:
 			// Se manda un mensaje con los clientes conectados.
-			enviarMensajeTCP("SERVIDOR -> Clientes conectados: " + PrincipalServidor.getClientes().obtenerCadenaClientes());
+			enviarMensajeTCP("SERVIDOR --> Clientes conectados: " + PrincipalServidor.getClientes().obtenerCadenaClientes());
 			break;
 		
 		// Si el mensaje es un código de salida...
 		case PrincipalServidor.SERVIDOR_CODIGO_SALIDA:
 			// Se manda un mensaje avisando de quién sale.
-			PrincipalServidor.enviarMensajeATodos("SERVIDOR -> " + nombreUsuario + " ha salido.");
+			PrincipalServidor.enviarMensajeATodos("SERVIDOR --> " + nombreUsuario + " ha salido.");
 			// Se quita al cliente.
 			PrincipalServidor.quitarCliente(nombreUsuario);
 			break;
 			
 		// Si no es ninguno de los códigos anteriores, se manda el mensaje a todos.
 		default:
-			PrincipalServidor.enviarMensajeATodos(nombreUsuario + " -> " + mensaje);
+			PrincipalServidor.enviarMensajeATodos(nombreUsuario + " --> " + mensaje);
 			break;
 		}
 	}

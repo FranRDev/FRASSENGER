@@ -8,6 +8,11 @@ import java.net.ServerSocket;
 import com.frassenger.modelo.PrincipalServidor;
 import com.frassenger.vista.PanelServidor;
 
+/**
+ * Controlador de PrincipalServidor.
+ * 
+ * @author Francisco Rodríguez García
+ */
 public class ControladorServidor implements ActionListener {
 
 	//=====================================================================================================
@@ -30,6 +35,10 @@ public class ControladorServidor implements ActionListener {
 	//=====================================================================================================
 	// SETTERS
 	//=====================================================================================================
+	/**
+	 * Set del servidor.
+	 * @param servidor Servidor que establece.
+	 */
 	public void setServidor(ServerSocket servidor) {
 		this.servidor = servidor;
 	}
@@ -44,8 +53,10 @@ public class ControladorServidor implements ActionListener {
 	public void actionPerformed(ActionEvent ae) {
 		String comando;
 		
+		// Se obtiene el comando.
 		comando = ae.getActionCommand();
 		
+		// Si el comando es desconectar, hace todo lo necesario para ello.
 		if (comando.equalsIgnoreCase("desconectar")) {
 			try {
 				do {
@@ -64,10 +75,18 @@ public class ControladorServidor implements ActionListener {
 		}
 	}
 	
+	/**
+	 * Poner mensaje en servidor.
+	 * @param mensaje Mensaje que se pone.
+	 */
 	public void ponerMensajeServidor(String mensaje) {
 		panel.anhadirMensaje(mensaje);
 	}
 	
+	/**
+	 * Cambiar número de clientes conectados.
+	 * @param numeroClientes Número de clientes a poner.
+	 */
 	public void cambiarClientesConectados(int numeroClientes) {
 		panel.cambiarEtiquetaClientesConectados("Clientes conectados: " + numeroClientes + "/" + PrincipalServidor.SERVIDOR_MAXIMO_CONEXIONES);
 	}

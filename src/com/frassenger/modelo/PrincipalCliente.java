@@ -38,6 +38,10 @@ public class PrincipalCliente {
 	//=====================================================================================================
 	// MÉTODO PRINCIPAL
 	//=====================================================================================================
+	/**
+	 * Principal.
+	 * @param args Argumentos.
+	 */
 	public static void main(String[] args) {
 		try {
 			// Se crea la Vista.
@@ -45,8 +49,6 @@ public class PrincipalCliente {
 
 			// Se solicitan los datos requeridos de conexión al servidor.
 			solicitarDatosInicio();
-			
-			//configurarVentana();
 			
 			// Se inicia el cliente.
 			iniciarCliente();
@@ -59,13 +61,17 @@ public class PrincipalCliente {
 			}
 			
 		} catch (Exception e) {
-			System.out.println(e.getMessage());
+			JOptionPane.showMessageDialog(ventana, "Imposible conectar con el servidor.\nComprueba que está conectado.", "FRASSENGER - ERROR", JOptionPane.ERROR_MESSAGE);
+			System.exit(0);
 		}
 	}
 
 	//=====================================================================================================
 	// MÉTODOS
 	//=====================================================================================================
+	/**
+	 * Crea la vista y el controlador.
+	 */
 	private static void crearVistaControlador() {
 		ventana = new JFrame("FRASSENGER - CLIENTE");
 		panel = new PanelCliente();
@@ -74,6 +80,9 @@ public class PrincipalCliente {
 		panel.controlador(controlador);
 	}
 	
+	/**
+	 * Solicita los datos de inicio.
+	 */
 	private static void solicitarDatosInicio() {
 		host = solicitarHost(ventana);
 		puerto = solicitarPuerto(ventana);
@@ -146,7 +155,7 @@ public class PrincipalCliente {
 				
 				try {
 					// Se solicita el puerto.
-					puerto = Integer.parseInt(JOptionPane.showInputDialog(ventana, "Introduce el puerto del servidor:", "FRASSENGER", JOptionPane.QUESTION_MESSAGE));
+					puerto = Integer.parseInt(JOptionPane.showInputDialog(ventana, "Introduce el puerto del servidor (" + PrincipalServidor.SERVIDOR_PUERTO + "):", "FRASSENGER", JOptionPane.QUESTION_MESSAGE));
 					
 					// Si el puerto no entra dentro del rango de puertos registrados disponibles, hay error.
 					if (puerto < PUERTO_REGISTRADO_MINIMO || puerto > PUESRTO_REGISTRADO_MAXIMO) {
@@ -223,6 +232,9 @@ public class PrincipalCliente {
 		return nombreUsuario;
 	}
 	
+	/**
+	 * Configura la ventana.
+	 */
 	private static void configurarVentana() {
 		ventana.pack();
 		ventana.setVisible(true);
@@ -230,6 +242,10 @@ public class PrincipalCliente {
 		ventana.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 
+	/**
+	 * Inicia el cliente.
+	 * @throws Exception Puede devolver una excepción.
+	 */
 	private static void iniciarCliente() throws Exception {
 		// Se inicia el cliente.
 		cliente = new Socket();
@@ -244,7 +260,8 @@ public class PrincipalCliente {
 			claseCliente.enviarMensajeTCP(nombreUsuario);
 			
 		} else {
-			throw new Exception("Servidor lleno.");
+			JOptionPane.showMessageDialog(ventana, "Servidor lleno", "FRASSENGER", JOptionPane.INFORMATION_MESSAGE);
+			System.exit(0);
 		}	
 	}
 }

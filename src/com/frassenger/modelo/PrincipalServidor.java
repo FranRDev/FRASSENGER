@@ -56,7 +56,8 @@ public class PrincipalServidor {
 			}
 			
 		} catch (IOException e) {
-			JOptionPane.showMessageDialog(ventana, "Error:\n" + e.getMessage(), "FRASSENGER - ERROR", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(ventana, e.getMessage(), "FRASSENGER - ERROR", JOptionPane.ERROR_MESSAGE);
+			System.exit(0);
 		}
 	}
 	
@@ -82,6 +83,9 @@ public class PrincipalServidor {
 	//=====================================================================================================
 	// MÉTODOS
 	//=====================================================================================================
+	/**
+	 * Crea y configura la ventana.
+	 */
 	private static void crearYConfigurarVentana() {
 		// Se inicializa la ventana, con el panel y su controlador asociado.
 		ventana = new JFrame("FRASSENGER - SERVIDOR");
@@ -97,6 +101,10 @@ public class PrincipalServidor {
 		ventana.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 	
+	/**
+	 * Inicia el servidor.
+	 * @throws IOException Puede devolver una excepción
+	 */
 	private static void iniciarServidor() throws IOException {
 		try {
 			// Se crea e inicia el servidor.
@@ -112,10 +120,13 @@ public class PrincipalServidor {
 			controlador.ponerMensajeServidor(">>> SERVIDOR INICIADO...");
 			
 		} catch (IOException e) {
-			throw new IOException("Error al iniciar el servidor.");
+			throw new IOException("Ya hay un servidor iniciado.");
 		}
 	}
 
+	/**
+	 * Maneja los clientes.
+	 */
 	private static void manejarClientes() {
 		Socket cliente;
 		HiloServidor hiloServidor;
@@ -143,6 +154,9 @@ public class PrincipalServidor {
 		}
 	}
 	
+	/**
+	 * Cierra el servidor.
+	 */
 	public static void cerrarServidor() {
 		try {
 			// Se cierra el servidor.
@@ -186,9 +200,6 @@ public class PrincipalServidor {
 		
 		// Se añade el cliente.
 		clientes.anhadirCliente(nombreUsuario, hiloServidor);
-		
-		// Se avisa a todos de la incorporación.
-		clientes.actualizarClientesConectados();
 		
 		// Se obtiene el número de clientes.
 		numeroClientes = clientes.obtenerNumeroClientes();

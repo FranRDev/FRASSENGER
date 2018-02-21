@@ -26,6 +26,12 @@ public class Cliente {
 	//=====================================================================================================
 	// CONSTRUCTOR
 	//=====================================================================================================
+	/**
+	 * Constructor de Cliente.
+	 * @param controlador Controlador.
+	 * @param cliente Socket cliente.
+	 * @throws IOException Devuelve excepciones.
+	 */
 	public Cliente(ControladorCliente controlador, Socket cliente) throws IOException {
 		this.controlador = controlador;
 		this.cliente = cliente;
@@ -75,7 +81,7 @@ public class Cliente {
 	/**
 	 * Recibe un mensaje TCP.
 	 * @return Devuelve el mensaje recibido.
-	 * @throws IOException 
+	 * @throws IOException Puede devolver una excepción.
 	 */
 	public String recibirMensajeTCP() throws IOException {
 		String mensaje;
@@ -99,7 +105,7 @@ public class Cliente {
 	 * @param mensaje Mensaje a enviar.
 	 */
 	public void enviarMensajeTCP(String mensaje) {
-		flujoSalida.print(mensaje);
+		flujoSalida.println(mensaje);
 	}
 	
 	/**
